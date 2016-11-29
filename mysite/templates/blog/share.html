@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Share a post{% endblock title %}
+
+{% block content %}
+	{% if sent %}
+		<h2>Email was successfully sent.</h2>
+		<p>"{{ post.title }}" was successfully sent to {{ receiver }}.</p>
+		<button><a href="{{request.META.HTTP_REFERER}}">Go back</a></button>
+	{% else %}
+		<h2>Share "{{ post.title }}" by email.</h2><br>
+		<form action="." method="post">
+			<fieldset>
+				<legend>Share it Form:</legend>
+				{{ form.as_p }} {% csrf_token %}
+				<input type="submit" value="Send e-mail">
+			</fieldset>
+		</form>
+	{% endif %}
+	{% comment %}
+		# Rendering each field from the form
+		{% for field in form %}
+			<div>
+				{{ field.errors }}
+				{{ field.label_tag }} {{ field }}
+			</div>
+		{% endfor %}
+	{% endcomment %}
+{% endblock content %}

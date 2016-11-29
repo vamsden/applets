@@ -10,5 +10,6 @@
 		Go Back Button in javascript
 		< input type=button value="Previous Page" onClick="javascript:history.g
 	{% endcomment %}
+	<p><a href="{% url 'blog:post_share' post.id %}">Share this post</a></p>
 	<button><a href="{{request.META.HTTP_REFERER}}">Go back</a></button>
 {% endblock content %}
