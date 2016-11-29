@@ -7,6 +7,7 @@ class EmailPostForm(forms.Form):
 	to = forms.EmailField(label='Receiver ID')
 	comments = forms.CharField(required=False, widget=forms.Textarea(
 		attrs={
+			# Form attributes also check label field above.
 			"id": "comments",
 			"title": "Insert Comments",
 			"placeholder": "Place your comments here",

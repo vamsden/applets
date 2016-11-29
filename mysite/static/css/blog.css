@@ -60,7 +60,7 @@ p.date {
 label { 
     float:left;
     clear:both;
-    color:#333;
+    color:#fff;
     margin-bottom:4px; 
 }
 input, textarea { 
@@ -100,7 +100,16 @@ input[type=submit] {
     color:#666;
 }
 
-/* share form */
-label {
+button {
+    font-weight:bold;
+    background:#00abff;
+    color:#fff;
+    padding:10px 20px;
+    font-size:14px;
+    text-transform:uppercase;
+    border: #00abff;
+}
+
+button a {
     color: #fff;
 }
