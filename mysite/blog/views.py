@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
 from .models import Post
 
 # Create your views here.
-def post_list(request):
+"""def post_list(request):
 	object_list = Post.published.all()
 	paginator = Paginator(object_list, 3)
 	page = request.GET.get('page')
@@ -17,7 +18,7 @@ def post_list(request):
 		'page': page,
 		'posts': posts,
 	}
-	return render(request, 'blog/list.html', context)
+	return render(request, 'blog/list.html', context)"""
 
 def post_detail(request, year, month, day, post):
 	post = get_object_or_404(Post, slug=post,
@@ -29,3 +30,10 @@ def post_detail(request, year, month, day, post):
 		'post': post,
 	}
 	return render(request, 'blog/detail.html', context)
+
+
+class PostListView(ListView):
+	queryset = Post.published.all() # model = Post
+	context_object_name = 'posts' # default: object_list
+	paginate_by = 3
+	template_name = 'blog/list.html'

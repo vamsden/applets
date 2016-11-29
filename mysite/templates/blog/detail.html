@@ -6,4 +6,9 @@
 	<h1>{{ post.title }}</h1>
 	<p class="date">Published {{ post.publish }} by {{ post.author }}</p>
 	{{ post.body|linebreaks }}
+	{% comment %}
+		Go Back Button in javascript
+		< input type=button value="Previous Page" onClick="javascript:history.g
+	{% endcomment %}
+	<button><a href="{{request.META.HTTP_REFERER}}">Go back</a></button>
 {% endblock content %}
