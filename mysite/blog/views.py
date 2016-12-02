@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.views.generic import ListView
-from .models import Post
-from .forms import EmailPostForm
+from .models import Comment, Post
+from .forms import EmailPostForm, CommentForm
 
 # Create your views here.
 """def post_list(request):
@@ -28,10 +28,27 @@ def post_detail(request, year, month, day, post):
 								   publish__year=year,
 								   publish__month=month,
 								   publish__day=day)
+	# List of active comments for the current post
+	comments = post.comments.filter(active=True)
+
+	if request.method == "POST":
+		# Comment Posted
+		comment_form = CommentForm(data=request.POST)
+		if comment_form.is_valid():
+			new_comment = comment_form.save(commit=False)
+			# Assigns the current post to the comment
+			new_comment.post = post
+			# Save the comment
+			new_comment.save()
+	else:
+		comment_form = CommentForm()
 	context = {
 		'post': post,
+		'comments': comments,
+		'comment_form': comment_form,
 	}
 	return render(request, 'blog/detail.html', context)
+
 
 # Post List View in class based form
 class PostListView(ListView):
@@ -39,6 +56,7 @@ class PostListView(ListView):
 	context_object_name = 'posts' # default: object_list
 	paginate_by = 3
 	template_name = 'blog/list.html'
+
 
 # Share Post View
 def post_share(request, post_id):

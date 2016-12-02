@@ -89,11 +89,12 @@ input[type=submit] {
 
 /* comments */
 .comment {
-    padding:10px;
+    padding:5px 10px;
+    background: #062f40;
 }
-.comment:nth-child(even) {
+/*.comment:nth-child(even) {
     background:#efefef;
-}
+}*/
 .comment .info {
     font-weight:bold;
     font-size:12px;
