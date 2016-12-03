@@ -3,7 +3,7 @@ from .models import Post, Comment
 
 class PostAdmin(admin.ModelAdmin):
 	# List of fields to be displyed in PostAdmin
-	list_display = ('title', 'author', 'publish', 'created', 'updated', 'status')
+	list_display = ('title', 'author', 'publish', 'created', 'updated', 'tag_list', 'status')
 	# Display title field as a link
 	list_display_links = ('title',)
 	# Adds List filter on the right site bar of the Post List page
@@ -20,6 +20,12 @@ class PostAdmin(admin.ModelAdmin):
 	date_hierarchy = 'publish'
 	# Adds list ordering by status and publish fields
 	ordering = ['status', 'publish']
+
+	def get_queryset(self, request):
+		return super(PostAdmin, self).get_queryset(request).prefetch_related('tags')
+
+	def tag_list(self, obj):
+		return u", ".join(o.name for o in obj.tags.all())
 
 
 @admin.register(Comment)
