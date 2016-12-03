@@ -2,8 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.views.generic import ListView
+from django.db.models import Count
+
 from .models import Comment, Post
 from .forms import EmailPostForm, CommentForm
+
 from taggit.models import Tag
 
 # Create your views here.
@@ -50,10 +53,19 @@ def post_detail(request, year, month, day, post):
 			new_comment.save()
 	else:
 		comment_form = CommentForm()
+
+	# Get the post ids
+	post_tags_ids = post.tags.values_list('id', flat=True)
+	# Use the above ids to filter the tags to get similar posts except the current post
+	similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+	similar_posts = similar_posts.annotate(
+		same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+
 	context = {
 		'post': post,
 		'comments': comments,
 		'comment_form': comment_form,
+		'similar_posts': similar_posts,
 	}
 	return render(request, 'blog/detail.html', context)
 
