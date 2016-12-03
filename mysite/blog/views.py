@@ -4,10 +4,17 @@ from django.core.mail import send_mail
 from django.views.generic import ListView
 from .models import Comment, Post
 from .forms import EmailPostForm, CommentForm
+from taggit.models import Tag
 
 # Create your views here.
-"""def post_list(request):
+def post_list(request, tag_slug=None):
 	object_list = Post.published.all()
+	tag = None
+
+	if tag_slug:
+		tag = get_object_or_404(Tag, slug=tag_slug)
+		object_list = object_list.filter(tags__in=[tag])
+
 	paginator = Paginator(object_list, 3)
 	page = request.GET.get('page')
 	try:
@@ -19,8 +26,9 @@ from .forms import EmailPostForm, CommentForm
 	context = {
 		'page': page,
 		'posts': posts,
+		'tag': tag,
 	}
-	return render(request, 'blog/list.html', context)"""
+	return render(request, 'blog/list.html', context)
 
 def post_detail(request, year, month, day, post):
 	post = get_object_or_404(Post, slug=post,
@@ -51,11 +59,11 @@ def post_detail(request, year, month, day, post):
 
 
 # Post List View in class based form
-class PostListView(ListView):
+"""class PostListView(ListView):
 	queryset = Post.published.all() # model = Post
 	context_object_name = 'posts' # default: object_list
 	paginate_by = 3
-	template_name = 'blog/list.html'
+	template_name = 'blog/list.html'"""
 
 
 # Share Post View
