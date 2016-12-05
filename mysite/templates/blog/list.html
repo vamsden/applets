@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
 
 {% block title %}
 	My Blog
@@ -22,7 +23,8 @@
 		</p>
 
 		<p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-		{{ post.body|truncatewords:30|linebreaks }}
+		<!--{{ post.body|truncatewords:30|linebreaks }}-->
+		{{ post.body|Markdown|truncatewords_html:30 }}
 		<button><a href="{{ post.get_absolute_url }}">Read More</a></button>
 	{% endfor %}
 	<!--{% comment %}-->
