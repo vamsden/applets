@@ -1,3 +1,6 @@
 ### Private Stuff ###
 # files to ignore #
 local_settings.py
+
+# Ignore folders
+__pycache__/

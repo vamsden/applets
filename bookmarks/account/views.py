@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import LoginForm
 
 # Create your views here.
+"""
 def user_login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
@@ -25,4 +27,12 @@ def user_login(request):
 	context = {
 		'form': form,
 	}
-	return render(request, 'account/login.html', context)
+	return render(request, 'account/registration/login.html', context)
+"""
+
+@login_required
+def dashboard(request):
+	context = {
+		'section': 'dashboard',
+	}
+	return render(request, 'account/dashboard.html', context)
